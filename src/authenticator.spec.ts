@@ -1,7 +1,15 @@
 import 'mocha'
 import { expect } from 'chai'
 import Authenticator from './authenticator'
-const lxr = require('../lxr.json')
+
+// Test variables defined either by lxr.json or envvars, usefull for CI pipelines
+let lxr
+try {
+  lxr = require('../lxr.json')
+} catch (err) {
+  lxr.instance = process.env.LEANIX_INSTANCE
+  lxr.apiToken = process.env.LEANIX_API_TOKEN
+}
 
 describe('Authenticator class', () => {
 

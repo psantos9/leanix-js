@@ -3,7 +3,15 @@ import { expect } from 'chai'
 import * as uuid from 'uuid'
 import Metrics from './metrics'
 import Authenticator from './authenticator'
-const lxr = require('../lxr.json')
+
+// Test variables defined either by lxr.json or envvars, usefull for CI pipelines
+let lxr
+try {
+  lxr = require('../lxr.json')
+} catch (err) {
+  lxr.instance = process.env.INSTANCE
+  lxr.apiToken = process.env.APITOKEN
+}
 
 const sleep = async (delayMs: number): Promise<any> => {
   return new Promise((resolve, reject) => setTimeout(() => {

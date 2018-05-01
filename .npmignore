@@ -4,6 +4,9 @@ tsconfig.json
 src/
 docs/
 .npmignore
+.tslint.json
+lxr.json
+.vscode/
 
 // npm pack
 leanix-js-*.tgz

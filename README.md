@@ -3,6 +3,8 @@
 Javascript client library for LeanIX
 [Documentation](https://leanix-public.github.io/leanix-js/)
 
+[![NPM](https://nodei.co/npm/leanix-js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/leanix-js/)
+
 [![Build Status](https://travis-ci.org/pmrs78/leanix-js.svg?branch=master)](https://travis-ci.org/pmrs78/leanix-js)
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)

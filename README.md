@@ -12,8 +12,8 @@ Javascript client library for LeanIX
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-Documentation found [here](documentation-url)
+Check [here](examples)[https://github.com/leanix-public/leanix-js/tree/development/examples] for usage examples.
+API documentation can be found [here](documentation-url).
 
 ## Running the tests
 

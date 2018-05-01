@@ -5,13 +5,10 @@ import Metrics from './metrics'
 import Authenticator from './authenticator'
 
 // Test variables defined either by lxr.json or envvars, usefull for CI pipelines
-let lxr: {[k: string]: string} = { instance: '', apiToken: '' }
+let lxr: {[k: string]: string} = { instance: process.env.INSTANCE, apiToken: process.env.APITOKEN }
 try {
   lxr = require('../lxr.json')
-} catch (err) {
-  lxr.instance = process.env.INSTANCE
-  lxr.apiToken = process.env.APITOKEN
-}
+} catch (err) {}
 
 const sleep = async (delayMs: number): Promise<any> => {
   return new Promise((resolve, reject) => setTimeout(() => {

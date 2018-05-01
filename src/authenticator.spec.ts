@@ -3,14 +3,10 @@ import { expect } from 'chai'
 import Authenticator from './authenticator'
 
 // Test variables defined either by lxr.json or envvars, usefull for CI pipelines
-let lxr: {[k: string]: string} = { instance: '', apiToken: '' }
-
+let lxr: {[k: string]: string} = { instance: process.env.INSTANCE, apiToken: process.env.APITOKEN }
 try {
   lxr = require('../lxr.json')
-} catch (err) {
-  lxr.instance = process.env.LEANIX_INSTANCE
-  lxr.apiToken = process.env.LEANIX_API_TOKEN
-}
+} catch (err) {}
 
 describe('Authenticator class', () => {
 

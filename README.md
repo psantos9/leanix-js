@@ -3,9 +3,13 @@
 Javascript client library for LeanIX
 [Documentation](https://leanix-public.github.io/leanix-js/)
 
+[![Build status][ci-image]][ci-url]
+
 [![NPM](https://nodei.co/npm/leanix-js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/leanix-js/)
 
 [![Build Status](https://travis-ci.org/pmrs78/leanix-js.svg?branch=master)](https://travis-ci.org/pmrs78/leanix-js)
+
+[![dependencies](https://david-dm.org/bahmutov/xplain.png)](https://david-dm.org/bahmutov/xplain)
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -92,3 +96,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone who's code was used
 * Inspiration
 * etc
+
+
+[Build status]: https://nodei.co/npm/leanix-js/
+[ci-image]: https://travis-ci.org/pmrs78/leanix-js.png?branch=master
+[ci-url]: https://travis-ci.org/bahmutov/leanix-js

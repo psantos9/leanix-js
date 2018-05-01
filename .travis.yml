@@ -21,6 +21,7 @@ deploy:
     github_token: $GITHUB_TOKEN
     on:
       tags: true
+      branch: master
   - provider: releases
     api_key: $GITHUB_TOKEN
     file_glob: true
@@ -28,6 +29,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+      branch: master
   - provider: npm
     skip_cleanup: true
     email: "pauloramires@gmail.com"

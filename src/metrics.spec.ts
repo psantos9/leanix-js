@@ -5,7 +5,7 @@ import Metrics from './metrics'
 import Authenticator from './authenticator'
 
 // Test variables defined either by lxr.json or envvars, usefull for CI pipelines
-let lxr
+let lxr: any
 try {
   lxr = require('../lxr.json')
 } catch (err) {

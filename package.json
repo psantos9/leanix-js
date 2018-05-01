@@ -6,8 +6,8 @@
   "license": "MIT",
   "homepage": "https://leanix-public.github.io/leanix-js/",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/leanix-public/leanix-js.git"
+    "type": "git",
+    "url": "https://github.com/leanix-public/leanix-js.git"
   },
   "bugs": {
     "url": "https://github.com/leanix-public/leanix-js/issues"
@@ -22,7 +22,7 @@
     "test-only": "mocha --exit -r ts-node/register src/**/*.spec.ts",
     "pretest": "npm run build",
     "test": "npm run test-only",
-    "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./src",
+    "typedoc": "typedoc --theme minimal --out ./docs --mode modules --exclude \"**/*+(e2e|spec|index).ts\" --tsconfig ./tsconfig.json ./src",
     "posttypedoc": "shx cp .nojekyll docs/.nojekyll"
   },
   "devDependencies": {
@@ -43,6 +43,7 @@
     "uuid": "^3.2.1"
   },
   "dependencies": {
+    "events": "^2.0.0",
     "jwt-decode": "^2.2.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5"

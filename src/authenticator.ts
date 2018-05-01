@@ -1,5 +1,6 @@
 import * as rp from 'request-promise-native'
 import * as jwtDecode from 'jwt-decode'
+import * as EventEmitter from 'events'
 
 interface AuthResponse {
   access_token: string
@@ -41,12 +42,23 @@ interface Permission {
   workspaceName: string
 }
 
-export default class Authenticator {
+export default class Authenticator extends EventEmitter {
+  /**
+   * Server response received from last authentication
+   */
   private _authResponse: AuthResponse
+  /**
+   * Current JWT token
+   */
   private _accessToken: string
+  /**
+   * NodeJS.Timer object for the token renewal job
+   */
   private _timer: NodeJS.Timer
 
-  constructor (public instance: string, public apiToken: string, public proxy?: string) {}
+  constructor(public instance: string, private _apiToken: string, public proxy?: string) {
+    super()
+  }
 
   get accessToken (): string {
     return this._accessToken
@@ -56,25 +68,47 @@ export default class Authenticator {
     return this._authResponse
   }
 
+  get hasCredentials(): boolean {
+    return !!this._apiToken && !!this.instance
+  }
+
+  /**
+   * Returns the running state of the authentication agent
+   */
+  get isRunning (): boolean {
+    return !!this._timer
+  }
+
+  /**
+   * Starts the authentication agent
+   *
+   * It should be inherited by all subclasses. This class has a static
+   * member with the same name, both should be documented.
+   *
+   * @returns Return the name.
+   */
+  
   public start () {
     return this.authenticate()
   }
 
-  stop () {
+  /**
+   * Stops the authentication agent
+   */
+
+  stop (): void {
     if (this._timer) {
       clearTimeout(this._timer)
       this._timer = undefined
+      this._accessToken = undefined
+      this._authResponse = undefined
     }
   }
 
-  status () {
-    return this._timer ? 'RUNNING' : 'STOPPED'
-  }
-
-  authenticate () {
+  private authenticate () {
     this.stop()
     return new Promise((resolve, reject) => {
-      this.getAccessToken(this.instance, this.apiToken, this.proxy)
+      this.getAccessToken(this.instance, this._apiToken, this.proxy)
         .then((authResponse: AuthResponse) => {
           this._authResponse = authResponse
           this._accessToken = authResponse.access_token
@@ -84,13 +118,18 @@ export default class Authenticator {
             const nextAuth = Math.max(authResponse.expires_in - 10, 10) * 1000
             this._timer = setTimeout(() => this.authenticate(), nextAuth)
           }
+          this.emit('authenticated')
           resolve(this._accessToken)
         })
-        .catch(err => reject(err))
+        .catch(err => {
+          this.stop()
+          this.emit('error', err)
+          reject(err)
+        })
     })
   }
 
-  getAccessToken (instance: string, apiToken: string, proxy?: string): Promise<AuthResponse> {
+  private getAccessToken (instance: string, apiToken: string, proxy?: string): Promise<AuthResponse> {
     const base64ApiToken = Buffer.from(`apitoken:${apiToken}`).toString('base64')
     const options = {
       method: 'POST',

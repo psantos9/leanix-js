@@ -5,9 +5,9 @@ Javascript client library for LeanIX
 
 [![NPM][npm-image]][npm-url]
 
-[![CI][ci-image]][ci-url]
+[![TRAVIS][ci-image]][ci-url]
 
-[![dependencies][dependencies-image]][dependencies-url]
+[![DEPENDENCIES][dependencies-image]][dependencies-url]
 
 [![JavaScript Style Guide][standard-style-image]][standard-style-url]
 
@@ -104,7 +104,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 [ci-image]: https://travis-ci.org/pmrs78/leanix-js.svg?branch=master
 [ci-url]: https://travis-ci.org/bahmutov/leanix-js
 
-[dependecies-image]: https://david-dm.org/leanix-public/leanix-js.svg
+[dependencies-image]: https://david-dm.org/leanix-public/leanix-js.svg
 [dependencies-url]: https://david-dm.org/leanix-public/leanix-js
 
 [standard-style-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg

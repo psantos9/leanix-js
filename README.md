@@ -1,17 +1,13 @@
 # leanix-js
 
 Javascript client library for LeanIX
-[Documentation](https://leanix-public.github.io/leanix-js/)
+[Documentation][documentation-url]
 
 [![Build status][ci-image]][ci-url]
 
-[![NPM](https://nodei.co/npm/leanix-js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/leanix-js/)
+[![dependencies][dependencies-image]][dependencies-url]
 
-[![Build Status](https://travis-ci.org/pmrs78/leanix-js.svg?branch=master)](https://travis-ci.org/pmrs78/leanix-js)
-
-[![dependencies](https://david-dm.org/bahmutov/xplain.png)](https://david-dm.org/bahmutov/xplain)
-
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![JavaScript Style Guide][standard-style-image]][standard-style-url]
 
 ## Getting Started
 
@@ -98,6 +94,14 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * etc
 
 
+[documentation-url]: https://leanix-public.github.io/leanix-js/
 [Build status]: https://nodei.co/npm/leanix-js/
-[ci-image]: https://travis-ci.org/pmrs78/leanix-js.png?branch=master
+[ci-image]: https://travis-ci.org/pmrs78/leanix-js.svg?branch=master
 [ci-url]: https://travis-ci.org/bahmutov/leanix-js
+
+[dependencies]: https://david-dm.org/leanix-public/leanix-js.svg
+[dependecies-image]: https://david-dm.org/leanix-public/leanix-js.svg
+[dependencies-url]: https://david-dm.org/leanix-public/leanix-js
+
+[standard-style-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
+[standard-style-url]: https://standardjs.com

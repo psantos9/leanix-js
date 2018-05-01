@@ -101,8 +101,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 [npm-image]: https://nodei.co/npm/leanix-js.png
 [npm-url]: https://nodei.co/npm/leanix-js/
 
-[ci-image]: https://travis-ci.org/pmrs78/leanix-js.svg?branch=master
-[ci-url]: https://travis-ci.org/pmrs78/leanix-js
+[ci-image]: https://travis-ci.org/leanix-public/leanix-js.svg?branch=master
+[ci-url]: https://travis-ci.org/leanix-public/leanix-js
 
 [dependencies-image]: https://david-dm.org/leanix-public/leanix-js.svg
 [dependencies-url]: https://david-dm.org/leanix-public/leanix-js

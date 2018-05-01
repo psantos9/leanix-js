@@ -1,6 +1,6 @@
 # leanix-js
 
-Javascript client library for LeanIX
+A Javascript client for LeanIX
 
 [![NPM][npm-image]][npm-url]
 

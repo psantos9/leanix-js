@@ -58,6 +58,7 @@ export default class Authenticator extends EventEmitter {
 
   constructor(public instance: string, private _apiToken: string, public proxy?: string) {
     super()
+    if (!instance || !_apiToken) throw Error('instance and apiToken parameters are required')
   }
 
   get accessToken (): string {

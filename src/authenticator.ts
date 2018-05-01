@@ -108,22 +108,23 @@ export default class Authenticator extends EventEmitter {
 
   private async authenticate () {
     this.stop()
-    const authResponse: AuthResponse = await this.getAccessToken(this.instance, this._apiToken, this.proxy)
-      .catch(err => {
-        this.stop()
-        this.emit('error', err)
-        return err
-      })
-    this._authResponse = authResponse
-    this._accessToken = authResponse.access_token
-    if (authResponse.expired) throw new Error('received an expired jwt token')
-    if (authResponse.expires_in > 0) {
-      // Next authentication time, in milliseconds
-      const nextAuth = Math.max(authResponse.expires_in - 10, 10) * 1000
-      this._timer = setTimeout(() => this.authenticate(), nextAuth)
+    try {
+      const authResponse: AuthResponse = await this.getAccessToken(this.instance, this._apiToken, this.proxy)
+      this._authResponse = authResponse
+      this._accessToken = authResponse.access_token
+      if (authResponse.expired) throw new Error('received an expired jwt token')
+      if (authResponse.expires_in > 0) {
+        // Next authentication time, in milliseconds
+        const nextAuth = Math.max(authResponse.expires_in - 10, 10) * 1000
+        this._timer = setTimeout(() => this.authenticate(), nextAuth)
+      }
+      this.emit('authenticated')
+      return this._accessToken
+    } catch (err) {
+      this.stop()
+      this.emit('error', err)
+      return err
     }
-    this.emit('authenticated')
-    return this._accessToken
   }
 
   private getAccessToken (instance: string, apiToken: string, proxy?: string): Promise<AuthResponse> {

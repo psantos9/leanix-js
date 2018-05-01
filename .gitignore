@@ -1,4 +1,4 @@
 node_modules/
 dist/
 docs/
-./lxr.json
+lxr.json

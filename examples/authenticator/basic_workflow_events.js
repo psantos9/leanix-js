@@ -16,5 +16,3 @@ authenticator.on('error', err => {
 })
 
 authenticator.start()
-  // Catch promise rejection from start() in order to avoid unhandled rejection message in the console
-  .catch(() => { })

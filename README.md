@@ -39,7 +39,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 [documentation-url]: https://leanix-public.github.io/leanix-js/
 
-[examples-url]: https://github.com/leanix-public/leanix-js/tree/development/examples
+[examples-url]: https://github.com/leanix-public/leanix-js/tree/master/examples
 
 [npm-image]: https://nodei.co/npm/leanix-js.png
 [npm-url]: https://nodei.co/npm/leanix-js/

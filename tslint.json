@@ -1,0 +1,19 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint-config-standard"
+    ],
+    "jsRules": {},
+    "rules": {
+        "await-promise": false,
+        "no-unused-variable": true,
+        "no-use-before-declare": false,
+        "no-floating-promises": false,
+        "return-undefined": false,
+        "no-unnecessary-qualifier": false,
+        "no-unnecessary-type-assertion": true,
+        "strict-type-predicates": false
+
+    },
+    "rulesDirectory": []
+}

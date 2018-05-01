@@ -1,0 +1,13 @@
+tsconfig.json
+tslint.json
+.eslintrc.js
+.travis.yml
+.nojekyll
+src/
+docs/
+.npmignore
+lxr.json
+.vscode/
+
+// npm pack
+leanix-js-*.tgz

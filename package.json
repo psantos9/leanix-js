@@ -2,6 +2,8 @@
   "name": "leanix-js",
   "version": "0.0.1-beta.2",
   "description": "Javascript client library for LeanIX",
+  "author": "Paulo dos Santos <paulo.santos@leanix.net>",
+  "license": "MIT",
   "homepage": "https://leanix-public.github.io/leanix-js/",
   "repository": {
     "type" : "git",
@@ -23,8 +25,6 @@
     "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./src",
     "posttypedoc": "shx cp .nojekyll docs/.nojekyll"
   },
-  "author": "Paulo dos Santos <paulo.santos@leanix.net>",
-  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.1.3",
     "@types/jwt-decode": "^2.2.1",

@@ -18,9 +18,9 @@ Install the library in your project
 npm install leanix-js
 ```
 
-Check [here](examples-url) for usage examples.
+Check [here][examples-url] for usage examples.
 
-API documentation for this library can be found [here](documentation-url).
+API documentation for this library can be found [here][documentation-url].
 
 ## Running the tests
 

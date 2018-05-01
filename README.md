@@ -29,11 +29,21 @@ API documentation for this library can be found [here][documentation-url].
 npm install && npm run build
 ```
 
-2. Add LeanIX instance and apiToken to `lxr.json` file located in the `/examples` folder.
+2. Create a `lxr.json` file in the root folder of the project with the following properties:
+```json
+{
+  "instance": "<your leanix instance, e.g. 'app.leanix.net'",
+  "apiToken": "<your api token>"
+}
+```
 
 3. Run or debug the example file of your choice
 
 ## Running the tests
+
+1. Confirm that you have created the `lxr.json` file in the root folder of your project.
+
+2. Run the command:
 
 ```
 npm run test

@@ -1,10 +1,10 @@
 tsconfig.json
+tslint.json
 .travis.yml
 .nojekyll
 src/
 docs/
 .npmignore
-.tslint.json
 lxr.json
 .vscode/
 

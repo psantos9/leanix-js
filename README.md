@@ -22,6 +22,17 @@ Check [here][examples-url] for usage examples.
 
 API documentation for this library can be found [here][documentation-url].
 
+## Running the examples
+
+1. Install the library dependencies and build it
+```
+npm install && npm run build
+```
+
+2. Add LeanIX instance and apiToken to `lxr.json` file located in the `/examples` folder.
+
+3. Run or debug the example file of your choice
+
 ## Running the tests
 
 ```

@@ -1,6 +1,7 @@
 # leanix-js
 
 Javascript client library for LeanIX
+[Documentation](https://leanix-public.github.io/leanix-js/)
 
 ## Getting Started
 

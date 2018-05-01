@@ -8,10 +8,14 @@ const metrics = new Metrics(authenticator)
 authenticator.once('authenticated', () => {
   metrics.getMeasurements()
     .then(measurements => {
-      console.log('measurements', measurements)
+      const workspaceId = authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+      console.log(`Measurements for workspace ${workspaceId}`, measurements)
+      // Terminate the authenticator job so that the program exits
+      authenticator.stop()
     })
     .catch(err => {
-      console.error(err)
+      console.error('Error while getting measurements', err)
+      authenticator.stop()
     })
 })
 

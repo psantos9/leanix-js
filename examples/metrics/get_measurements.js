@@ -19,4 +19,8 @@ authenticator.once('authenticated', () => {
     })
 })
 
+authenticator.once('error', err => {
+  console.error('Error while authenticating', err)
+})
+
 authenticator.start()

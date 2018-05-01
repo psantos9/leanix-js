@@ -8,6 +8,7 @@ try {
   lxr = require('../lxr.json')
 } catch (err) {}
 
+console.log('lxr is ', lxr)
 describe('Authenticator class', () => {
 
   it('should store the instance and apiToken variables passed to the constructor', () => {

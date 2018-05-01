@@ -1,13 +1,19 @@
 {
   "name": "leanix-js",
-  "version": "1.0.0-beta.1",
+  "version": "0.0.1-beta.1",
   "description": "Javascript client library for LeanIX",
   "main": "dist/index.js",
+  "types": "./dist/index.d.js",
   "scripts": {
-    "build": "npm run clean && npm run test && tsc -p ./tsconfig.json",
-    "clean": "rimraf ./dist",
+    "setup": "npm install",
+    "build": "tsc -p ./tsconfig.json",
+    "clean": "shx rm -rf node_modules/ dist/ docs/ leanix-js-*.tgz",
     "tslint": "tslint --fix -c tslint.json 'src/**/*.ts'",
-    "test": "mocha --exit -r ts-node/register src/**/*.spec.ts"
+    "test-only": "mocha --exit -r ts-node/register src/**/*.spec.ts",
+    "pretest": "npm run build",
+    "test": "npm run test-only",
+    "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./src",
+    "posttypedoc": "shx cp .nojekyll docs/.nojekyll"
   },
   "author": "Paulo dos Santos <paulo.santos@leanix.net>",
   "license": "ISC",
@@ -20,10 +26,11 @@
     "@types/uuid": "^3.4.3",
     "chai": "^4.1.2",
     "mocha": "^5.1.1",
-    "rimraf": "^2.6.2",
+    "shx": "^0.2.2",
     "ts-node": "^6.0.1",
     "tslint": "^5.9.1",
     "tslint-config-standard": "^7.0.0",
+    "typedoc": "^0.11.1",
     "typescript": "^2.5.3",
     "uuid": "^3.2.1"
   },

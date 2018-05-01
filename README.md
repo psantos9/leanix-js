@@ -5,6 +5,8 @@ Javascript client library for LeanIX
 
 [![Build Status](https://travis-ci.org/pmrs78/leanix-js.svg?branch=master)](https://travis-ci.org/pmrs78/leanix-js)
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.

@@ -73,9 +73,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Paulo dos Santos** - *Initial work* - [pmrs78](https://github.com/pmrs78)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/leanix-public/leanix-js/graphs/contributors) who participated in this project.
 
 ## License
 

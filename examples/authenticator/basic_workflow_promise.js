@@ -1,6 +1,7 @@
 const Authenticator = require('../../dist').Authenticator
+const lxr = require('../lxr.json')
 
-const authenticator = new Authenticator('app.leanix.net', '4kNXEDZtOrCxu5CrxJ7UP8rVZ2OUHz6jKp25CdZ5g')
+const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
 
 authenticator.start()
   .then(() => {

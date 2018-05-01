@@ -8,7 +8,7 @@ try {
   lxr = require('../lxr.json')
 } catch (err) {}
 
-describe('Authenticator class', () => {
+describe.skip('Authenticator class', () => {
 
   it('should start, authenticate successfully and stop', async () => {
     const authenticator = new Authenticator(lxr.instance, lxr.apiToken + 'd')

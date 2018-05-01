@@ -1,14 +1,7 @@
 const Authenticator = require('../../dist').Authenticator
+const lxr = require('../lxr.json')
 
-let authenticator
-
-try {
-  authenticator = new Authenticator()
-} catch (err) {
-  console.log('instantiating an authenticator agent without instance/apiToken parameters will throw an error')
-}
-
-authenticator = new Authenticator('app.leanix.net', '4kNXEDZtOrCxu5CrxJ7UP8rVZ2OUHz6jKp25CdZ5')
+const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
 
 // authenticated event is thrown after a successfull authentication
 authenticator.once('authenticated', () => {

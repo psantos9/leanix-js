@@ -91,6 +91,9 @@ export default class Authenticator extends EventEmitter {
   
   public start () {
     return this.authenticate()
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   /**
@@ -119,13 +122,14 @@ export default class Authenticator extends EventEmitter {
             const nextAuth = Math.max(authResponse.expires_in - 10, 10) * 1000
             this._timer = setTimeout(() => this.authenticate(), nextAuth)
           }
-          this.emit('authenticated')
           resolve(this._accessToken)
+          this.emit('authenticated')
+          
         })
         .catch(err => {
           this.stop()
           this.emit('error', err)
-          reject(err)
+          return reject(err)
         })
     })
   }

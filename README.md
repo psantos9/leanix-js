@@ -12,6 +12,12 @@ Javascript client library for LeanIX
 
 ## Getting Started
 
+Install the library in your project
+
+```
+npm install leanix-js
+```
+
 Check [here](examples-url) for usage examples.
 
 API documentation for this library can be found [here](documentation-url).

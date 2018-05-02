@@ -88,7 +88,7 @@ export default class Metrics {
       })
   }
 
-  fetchData (q: string, raw?: boolean): Promise<any> {
+  fetchSeries (q: string, raw?: boolean): Promise<any> {
     const accessToken = this._authenticator.accessToken
     const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
     const options = {

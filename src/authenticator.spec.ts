@@ -12,7 +12,8 @@ if (process.env.LEANIX_INSTANCE && process.env.LEANIX_API_TOKEN) {
   } catch (err) { }
 }
 
-describe('Authenticator class', () => {
+describe('Authenticator class', function () {
+  this.timeout(10000)
 
   it('should store the instance and apiToken variables passed to the constructor', () => {
     const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
@@ -29,7 +30,7 @@ describe('Authenticator class', () => {
     expect(authenticator.isRunning).to.be.false
     expect(authenticator.authResponse).to.be.undefined
     expect(authenticator.accessToken).to.be.undefined
-  }).timeout(5000)
+  })
 
   it('should throw an "authenticated" event after a successfull authentication', done => {
     const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
@@ -40,7 +41,7 @@ describe('Authenticator class', () => {
       done()
     })
     authenticator.start()
-  }).timeout(5000)
+  })
 
   it('should throw an "error" event after as unsuccessfull authentication', done => {
     const authenticator = new Authenticator(lxr.instance, 'invalidApiToken')
@@ -53,6 +54,6 @@ describe('Authenticator class', () => {
     authenticator.start()
       // Ignore promise rejection, as the authentication error is reported by the "error" event
       .catch(err => { })
-  }).timeout(5000)
+  })
 
 })

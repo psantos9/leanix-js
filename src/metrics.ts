@@ -105,4 +105,25 @@ export default class Metrics {
       })
   }
 
+  createDemoMeasurement (measurement: string, demoDataType: string, tag?: {tagKey: string, tagValue: string}): Promise<void> {
+    const validDemoDataTypes = ['AVAILABILITY', 'REVENUE', 'NUMBEROFVISITORS']
+    if (validDemoDataTypes.indexOf(demoDataType) < 0) throw Error(`Invalid demo data type ${demoDataType}. Possible values are ${validDemoDataTypes.join(', ')}.`)
+    const accessToken = this._authenticator.accessToken
+    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const options = {
+      method: 'POST',
+      uri: `https://${this._authenticator.instance}/services/metrics/v1/points/createDemoPoints`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ demoDataType, workspaceId, measurement, ...tag })
+    }
+    return rp({ ...options, proxy: this._authenticator.proxy })
+      .then(res => JSON.parse(res))
+      .then((res: Response) => {
+        return res.errors.length ? Promise.reject(res.errors) : Promise.resolve()
+      })
+  }
+
 }

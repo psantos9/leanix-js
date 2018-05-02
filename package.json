@@ -1,6 +1,6 @@
 {
   "name": "leanix-js",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Javascript client library for LeanIX",
   "author": "Paulo dos Santos <paulo.santos@leanix.net>",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "types": "./dist/index.d.js",
   "scripts": {
     "setup": "npm install",
-    "build": "tsc -p ./tsconfig.json",
+    "build": "tsc",
     "clean": "shx rm -rf node_modules/ dist/ docs/ leanix-js-*.tgz",
     "tslint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "test-only": "mocha --exit -r ts-node/register src/**/*.spec.ts",

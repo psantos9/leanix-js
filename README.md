@@ -1,6 +1,6 @@
 # leanix-js
 
-Javascript client library for LeanIX
+A Javascript client for LeanIX
 
 [![NPM][npm-image]][npm-url]
 
@@ -18,11 +18,32 @@ Install the library in your project
 npm install leanix-js
 ```
 
-Check [here][examples-url] for usage examples.
+Check [here](examples/) for usage examples.
 
 API documentation for this library can be found [here][documentation-url].
 
+## Running the examples
+
+1. Install the library dependencies and build it
+```
+npm install && npm run build
+```
+
+2. Create a `lxr.json` file in the root folder of the project with the following properties:
+```json
+{
+  "instance": "<your leanix instance, e.g. 'app.leanix.net'",
+  "apiToken": "<your api token>"
+}
+```
+
+3. Run or debug the example file of your choice
+
 ## Running the tests
+
+1. Confirm that you have created the `lxr.json` file in the root folder of your project.
+
+2. Run the command:
 
 ```
 npm run test

@@ -1,5 +1,5 @@
 const Authenticator = require('../../dist').Authenticator
-const lxr = require('../lxr.json')
+const lxr = require('../../lxr.json')
 
 const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
 

@@ -84,6 +84,26 @@ describe('Metrics class', function () {
     expect(measurements.map(measurement => measurement.name).indexOf(name)).lessThan(0)
   }).timeout(30000)
 
+  it('should create a measurement with demo points', async () => {
+    const measurement = uuid.v4()
+    const demoDataType = 'AVAILABILITY'
+    const tag = {tagKey: uuid.v4(), tagValue: uuid.v4()}
+    const result = await metrics.createDemoMeasurement(measurement, demoDataType, tag)
+    expect(result).to.be.undefined
+    const measurements = await metrics.getMeasurements()
+    const measurementExistsInWorkspace = measurements.map(_measurement => _measurement.name).indexOf(measurement) > -1
+    expect(measurementExistsInWorkspace).to.be.true
+  })
+
+  it('fetch a time series from a query', async () => {
+    const measurement = uuid.v4()
+    const demoDataType = 'REVENUE'
+    await metrics.createDemoMeasurement(measurement, demoDataType)
+    const series = await metrics.fetchSeries(`SELECT * FROM ${measurement}`)
+    expect(series.fields).to.be.an('array').that.does.include('dollars_per_day')
+    expect(series.values).to.be.an('array').that.is.not.empty
+  })
+
   it('should delete all measurements for a workspace', async () => {
     const result = await metrics.deleteAllMeasurements()
     expect(result).to.be.undefined

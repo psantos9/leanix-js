@@ -15,7 +15,7 @@ export default class Metrics {
   getMeasurements (): Promise<Array<Measurement>> {
     if (!this._authenticator.accessToken) throw Error(`not authenticated`)
     const accessToken = this._authenticator.accessToken
-    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const workspaceId = this._authenticator.workspaceId
     const options = {
       method: 'GET',
       uri: `https://${this._authenticator.instance}/services/metrics/v1/measurements?${qs.stringify({ workspaceId })}`,
@@ -34,7 +34,7 @@ export default class Metrics {
     if (!this._authenticator.accessToken) throw Error(`not authenticated`)
     else if (!name) throw new Error(`please provide a measurement name`)
     const accessToken = this._authenticator.accessToken
-    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const workspaceId = this._authenticator.workspaceId
     const options = {
       method: 'DELETE',
       uri: `https://${this._authenticator.instance}/services/metrics/v1/measurements/${name}?${qs.stringify({ workspaceId })}`,
@@ -50,7 +50,7 @@ export default class Metrics {
   deleteAllMeasurements(): Promise<void> {
     if (!this._authenticator.accessToken) throw Error(`not authenticated`)
     const accessToken = this._authenticator.accessToken
-    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const workspaceId = this._authenticator.workspaceId
     const options = {
       method: 'DELETE',
       uri: `https://${this._authenticator.instance}/services/metrics/v1/workspaces/${workspaceId}`,
@@ -71,7 +71,7 @@ export default class Metrics {
     const _tags = Object.keys(tags)
       .map(k => { return { k, v: tags[k] }})
     const accessToken = this._authenticator.accessToken
-    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const workspaceId = this._authenticator.workspaceId
     const options = {
       method: 'POST',
       uri: `https://${this._authenticator.instance}/services/metrics/v1/points`,
@@ -90,7 +90,7 @@ export default class Metrics {
 
   fetchSeries (q: string, raw?: boolean): Promise<any> {
     const accessToken = this._authenticator.accessToken
-    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const workspaceId = this._authenticator.workspaceId
     const options = {
       method: 'GET',
       uri: `https://${this._authenticator.instance}/services/metrics/v1/series${raw ? '/raw' : ''}?${qs.stringify({ workspaceId, q })}`,
@@ -109,7 +109,7 @@ export default class Metrics {
     const validDemoDataTypes = ['AVAILABILITY', 'REVENUE', 'NUMBEROFVISITORS']
     if (validDemoDataTypes.indexOf(demoDataType) < 0) throw Error(`Invalid demo data type ${demoDataType}. Possible values are ${validDemoDataTypes.join(', ')}.`)
     const accessToken = this._authenticator.accessToken
-    const workspaceId = this._authenticator.authResponse.access_token_payload.principal.permission.workspaceId
+    const workspaceId = this._authenticator.workspaceId
     const options = {
       method: 'POST',
       uri: `https://${this._authenticator.instance}/services/metrics/v1/points/createDemoPoints`,

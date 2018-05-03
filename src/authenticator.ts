@@ -69,6 +69,14 @@ export default class Authenticator extends EventEmitter {
     return this._authResponse
   }
 
+  get workspaceId (): string {
+    return this.isRunning ? this.authResponse.access_token_payload.principal.permission.workspaceId : undefined
+  }
+
+  get workspaceName (): string {
+    return this.isRunning ? this.authResponse.access_token_payload.principal.permission.workspaceName : undefined
+  }
+
   get hasCredentials(): boolean {
     return !!this._apiToken && !!this.instance
   }
@@ -88,7 +96,7 @@ export default class Authenticator extends EventEmitter {
    *
    * @returns Return the name.
    */
-  
+
   public start () {
     return this.authenticate()
   }

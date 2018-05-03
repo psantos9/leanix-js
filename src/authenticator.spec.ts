@@ -26,10 +26,14 @@ describe('Authenticator class', function () {
     const token = await authenticator.start()
     expect(token).to.be.a('string')
     expect(authenticator.isRunning).to.be.true
+    expect(authenticator.workspaceId).not.to.be.undefined
+    expect(authenticator.workspaceName).not.to.be.undefined
     authenticator.stop()
     expect(authenticator.isRunning).to.be.false
     expect(authenticator.authResponse).to.be.undefined
     expect(authenticator.accessToken).to.be.undefined
+    expect(authenticator.workspaceId).to.be.undefined
+    expect(authenticator.workspaceName).to.be.undefined
   })
 
   it('should throw an "authenticated" event after a successfull authentication', done => {

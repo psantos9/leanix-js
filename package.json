@@ -1,6 +1,6 @@
 {
   "name": "leanix-js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Javascript client library for LeanIX",
   "author": "Paulo dos Santos <paulo.santos@leanix.net>",
   "license": "MIT",

@@ -9,7 +9,7 @@ export default class GraphQLClient {
     this._authenticator = authenticator
   }
 
-  run (query: string, variables?: any) {
+  executeGraphQL (query: string, variables?: any): Promise<any> {
     if (!this._authenticator.accessToken) throw Error(`not authenticated`)
     const accessToken = this._authenticator.accessToken
     const options = {

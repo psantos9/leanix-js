@@ -19,7 +19,7 @@ authenticator.once('authenticated', async () => {
     }
   `
   const variables = {first: 1}
-  const result = await graphql.run(query, variables)
+  const result = await graphql.executeGraphQL(query, variables)
   const factSheetType = result.allFactSheets.edges[0].node.type
   const factSheetId = result.allFactSheets.edges[0].node.id
   console.log(`The factsheet ${factSheetType} ${factSheetId} exists in workspace ${authenticator.workspaceName}`)

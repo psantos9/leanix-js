@@ -26,7 +26,7 @@ describe('GraphQLClient class', function () {
 
   it('should make a query without variables', async () => {
     const query = `{allFactSheets{totalCount}}`
-    const result = await graphql.run(query)
+    const result = await graphql.executeGraphQL(query)
     expect(result).to.have.property('allFactSheets')
     expect(result.allFactSheets).to.have.property('totalCount')
     expect(result.allFactSheets.totalCount).to.be.greaterThan(1)
@@ -45,7 +45,7 @@ describe('GraphQLClient class', function () {
       }
     `
     const variables = {first: 1} 
-    const result = await graphql.run(query, variables)
+    const result = await graphql.executeGraphQL(query, variables)
     expect(result).to.have.property('allFactSheets')
     expect(result.allFactSheets).to.have.property('edges')
     expect(result.allFactSheets.edges.length).to.be.equal(1)

@@ -1,6 +1,6 @@
 {
   "name": "leanix-js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Javascript client library for LeanIX",
   "author": "Paulo dos Santos <paulo.santos@leanix.net>",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "url": "https://github.com/leanix-public/leanix-js/issues"
   },
   "main": "dist/index.js",
-  "types": "./dist/index.d.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "setup": "npm install",
     "build": "tsc",

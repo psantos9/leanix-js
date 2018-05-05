@@ -2,7 +2,7 @@ import * as rp from 'request-promise-native'
 import * as jwtDecode from 'jwt-decode'
 import * as EventEmitter from 'events'
 
-interface AuthResponse {
+export interface AuthResponse {
   access_token: string
   access_token_payload: JWTPayload
   expired: boolean
@@ -12,14 +12,14 @@ interface AuthResponse {
   token_type: string
 }
 
-interface JWTPayload {
+export interface JWTPayload {
   exp: number
   jti: string
   principal: Principal
   sub: string
 }
 
-interface Principal {
+export interface Principal {
   account: Account
   id: string
   permission: Permission
@@ -28,12 +28,12 @@ interface Principal {
   username: string
 }
 
-interface Account {
+export interface Account {
   id: string
   name: string
 }
 
-interface Permission {
+export interface Permission {
   customerRoles: string
   id: string
   role: string

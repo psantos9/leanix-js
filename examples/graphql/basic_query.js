@@ -7,7 +7,7 @@ const graphql = new GraphQLClient(authenticator)
 
 authenticator.once('authenticated', async () => {
   const query = '{allFactSheets{totalCount}}'
-  const result = await graphql.run(query)
+  const result = await graphql.executeGraphQL(query)
   console.log(`There are ${result.allFactSheets.totalCount} factSheets in workspace ${authenticator.workspaceName}`)
   authenticator.stop()
 })

@@ -22,7 +22,7 @@
     "test-only": "mocha --exit -r ts-node/register src/**/*.spec.ts",
     "pretest": "npm run build",
     "test": "npm run test-only",
-    "typedoc": "typedoc --theme minimal --out ./docs --mode modules --exclude \"**/*+(e2e|spec|index).ts\" --tsconfig ./tsconfig.json ./src",
+    "typedoc": "typedoc --theme minimal --out ./docs --mode modules --exclude \"**/*+(e2e|spec|index|index.d).ts\" --tsconfig ./tsconfig.json ./src",
     "posttypedoc": "shx cp .nojekyll docs/.nojekyll"
   },
   "devDependencies": {

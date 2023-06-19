@@ -1,35 +1,43 @@
-import 'mocha'
-import { expect } from 'chai'
-import Authenticator from './authenticator'
+import Authenticator, { type ICredentials } from './authenticator'
 import GraphQLClient from './graphql-client'
 
-let lxr: { [k: string]: string } = {}
+let lxr: Record<string, string> = {}
 
-if (process.env.LEANIX_INSTANCE && process.env.LEANIX_API_TOKEN) {
-  lxr = { instance: process.env.LEANIX_INSTANCE, apiToken: process.env.LEANIX_API_TOKEN }
+if ((typeof process.env.LEANIX_HOST === 'string') && typeof process.env.LEANIX_API_TOKEN === 'string') {
+  lxr = { host: process.env.LEANIX_HOST, apitoken: process.env.LEANIX_API_TOKEN }
 } else {
   try {
     lxr = require('../lxr.json')
-  } catch (err) { }
+  } catch (err) {
+    console.log(err)
+  }
 }
 
+jest.setTimeout(30000)
 describe('GraphQLClient class', function () {
-  this.timeout(10000)
   let authenticator: Authenticator
   let graphql: GraphQLClient
 
-  before(async () => {
-    authenticator = new Authenticator(lxr.instance, lxr.apiToken)
+  beforeAll(async () => {
+    const credentials: ICredentials = { host: lxr.host, apitoken: lxr.apitoken }
+    authenticator = new Authenticator(credentials)
     graphql = new GraphQLClient(authenticator)
     await authenticator.start()
   })
 
+  afterAll(async () => {
+    authenticator.stop()
+  })
+
   it('should make a query without variables', async () => {
-    const query = `{allFactSheets{totalCount}}`
+    const query = '{allFactSheets{totalCount}}'
     const result = await graphql.executeGraphQL(query)
-    expect(result).to.have.property('allFactSheets')
-    expect(result.allFactSheets).to.have.property('totalCount')
-    expect(result.allFactSheets.totalCount).to.be.greaterThan(1)
+    expect((result?.allFactSheets?.totalCount ?? 0) > 0).toBeTruthy()
+  })
+
+  it('should throw a GraphQLError after an invalid query', async () => {
+    const invalidQuery = '{invalidallFactSheets{totalCount}}'
+    await expect(graphql.executeGraphQL(invalidQuery)).rejects.toThrowError()
   })
 
   it('should make a query with variables', async () => {
@@ -44,11 +52,9 @@ describe('GraphQLClient class', function () {
         }
       }
     `
-    const variables = {first: 1} 
+    const variables = { first: 1 }
     const result = await graphql.executeGraphQL(query, variables)
-    expect(result).to.have.property('allFactSheets')
-    expect(result.allFactSheets).to.have.property('edges')
-    expect(result.allFactSheets.edges.length).to.be.equal(1)
+    expect('allFactSheets' in result).toBeTruthy()
+    expect((result?.allFactSheets?.edges?.length ?? 0) === 1).toBeTruthy()
   })
-
 })

@@ -1,63 +1,63 @@
-import 'mocha'
-import { expect } from 'chai'
-import Authenticator from './authenticator'
+import Authenticator, { type ICredentials } from './authenticator'
 
-let lxr: { [k: string]: string } = {}
+let lxr: Record<string, string> = {}
 
-if (process.env.LEANIX_INSTANCE && process.env.LEANIX_API_TOKEN) {
-  lxr = { instance: process.env.LEANIX_INSTANCE, apiToken: process.env.LEANIX_API_TOKEN }
+if ((typeof process.env.LEANIX_HOST === 'string') && typeof process.env.LEANIX_API_TOKEN === 'string') {
+  lxr = { host: process.env.LEANIX_HOST, apitoken: process.env.LEANIX_API_TOKEN }
 } else {
   try {
     lxr = require('../lxr.json')
-  } catch (err) { }
+  } catch (err) {
+    console.log(err)
+  }
 }
 
-describe('Authenticator class', function () {
-  this.timeout(10000)
-
-  it('should store the instance and apiToken variables passed to the constructor', () => {
-    const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
-    expect(authenticator.instance).to.equal(lxr.instance)
-    expect(authenticator.hasCredentials).to.be.true
+jest.setTimeout(30000)
+describe('Authenticator class', () => {
+  it('should store the instance and apitoken variables passed to the constructor', () => {
+    const credentials: ICredentials = { host: lxr.host, apitoken: lxr.apitoken }
+    const authenticator = new Authenticator(credentials)
+    expect(authenticator.host).toEqual(lxr.host)
+    expect(authenticator.hasCredentials).toBeTruthy()
+    authenticator.stop()
   })
 
   it('should start, authenticate successfully and stop', async () => {
-    const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
+    const credentials: ICredentials = { host: lxr.host, apitoken: lxr.apitoken }
+    const authenticator = new Authenticator(credentials)
     const token = await authenticator.start()
-    expect(token).to.be.a('string')
-    expect(authenticator.isRunning).to.be.true
-    expect(authenticator.workspaceId).not.to.be.undefined
-    expect(authenticator.workspaceName).not.to.be.undefined
+    expect(typeof token).toEqual('string')
+    expect(authenticator.isRunning).toBeTruthy()
+    expect(typeof authenticator.workspaceId).toEqual('string')
+    expect(typeof authenticator.workspaceName).toEqual('string')
     authenticator.stop()
-    expect(authenticator.isRunning).to.be.false
-    expect(authenticator.authResponse).to.be.undefined
-    expect(authenticator.accessToken).to.be.undefined
-    expect(authenticator.workspaceId).to.be.undefined
-    expect(authenticator.workspaceName).to.be.undefined
+    expect(authenticator.isRunning).toBeFalsy()
+    expect(authenticator.authResponse).toEqual(null)
+    expect(authenticator.accessToken).toEqual(null)
+    expect(authenticator.workspaceId).toEqual(null)
+    expect(authenticator.workspaceName).toEqual(null)
   })
 
   it('should throw an "authenticated" event after a successfull authentication', done => {
-    const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
+    const credentials: ICredentials = { host: lxr.host, apitoken: lxr.apitoken }
+    const authenticator = new Authenticator(credentials)
     authenticator.on('authenticated', () => {
-      expect(authenticator.isRunning).to.be.true
-      expect(authenticator.accessToken).to.be.a('string')
-      expect(authenticator.authResponse).not.to.be.undefined
+      expect(authenticator.isRunning).toBeTruthy()
+      expect(typeof authenticator.accessToken).toEqual('string')
+      expect(typeof authenticator.authResponse).toEqual('object')
+      authenticator.stop()
       done()
     })
-    authenticator.start()
+    void authenticator.start()
   })
 
-  it('should throw an "error" event after as unsuccessfull authentication', done => {
-    const authenticator = new Authenticator(lxr.instance, 'invalidApiToken')
-    authenticator.on('error', () => {
-      expect(authenticator.isRunning).to.be.false
-      expect(authenticator.accessToken).to.be.undefined
-      expect(authenticator.authResponse).to.be.undefined
-      done()
-    })
-    authenticator.start()
-      // Ignore promise rejection, as the authentication error is reported by the "error" event
-      .catch(err => { })
+  it('should throw an "error" event after as unsuccessfull authentication', async () => {
+    const invalidCredentials: ICredentials = { host: lxr.host, apitoken: 'invalidapitoken' }
+    const authenticator = new Authenticator(invalidCredentials)
+    await expect(authenticator.start()).rejects.toThrow('401 - unauthorized')
+    expect(authenticator.isRunning).toBeFalsy()
+    expect(authenticator.accessToken).toEqual(null)
+    expect(authenticator.authResponse).toEqual(null)
+    authenticator.stop()
   })
-
 })

@@ -1,12 +1,12 @@
 const Authenticator = require('../../dist').Authenticator
-const lxr = require('../../lxr.json')
+const lxr = require('../../lxr.json') // lxr.json must contain an object with "host" and "apitoken attributes set"
 
-const authenticator = new Authenticator(lxr.instance, lxr.apiToken)
+const authenticator = new Authenticator(...lxr)
 
 const authenticate = async () => {
   try {
     await authenticator.start()
-    console.log(`Auth Response`, authenticator.authResponse)
+    console.log('Auth Response', authenticator.authResponse)
     console.log(`Token will be renewed in ${authenticator.authResponse.expires_in} seconds`)
     authenticator.stop()
   } catch (err) {

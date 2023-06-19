@@ -1,7 +1,7 @@
-import * as rp from 'request-promise-native'
-import * as jwtDecode from 'jwt-decode'
+import axios, { AxiosError } from 'axios'
+import jwtDecode from 'jwt-decode'
 import * as EventEmitter from 'events'
-
+import { UnauthorizedError } from './errors'
 export interface AuthResponse {
   access_token: string
   access_token_payload: JWTPayload
@@ -42,50 +42,68 @@ export interface Permission {
   workspaceName: string
 }
 
+export interface ICredentials {
+  host: string
+  apitoken: string
+}
+
 export default class Authenticator extends EventEmitter {
   /**
    * Server response received from last authentication
    */
-  private _authResponse: AuthResponse
+  private _authResponse: AuthResponse | null = null
   /**
    * Current JWT token
    */
-  private _accessToken: string
+  private _accessToken: string | null = null
   /**
    * NodeJS.Timer object for the token renewal job
    */
-  private _timer: NodeJS.Timer
+  private _timer: NodeJS.Timer | null = null
 
-  constructor(public instance: string, private _apiToken: string, public proxy?: string) {
+  private readonly _host: string
+  private readonly _apitoken: string
+
+  constructor (credentials: ICredentials, public proxy?: string) {
     super()
-    if (!instance || !_apiToken) throw Error('instance and apiToken parameters are required')
+    if (typeof credentials !== 'object' || credentials === null || typeof credentials.host !== 'string' || typeof credentials.apitoken !== 'string') throw Error('host and apitoken parameters are required')
+    this._host = credentials.host
+    this._apitoken = credentials.apitoken
   }
 
-  get accessToken (): string {
+  get host (): string {
+    return this._host
+  }
+
+  get apitoken (): string {
+    return this._apitoken
+  }
+
+  get accessToken (): string | null {
     return this._accessToken
   }
 
-  get authResponse (): AuthResponse {
+  get authResponse (): AuthResponse | null {
     return this._authResponse
   }
 
-  get workspaceId (): string {
-    return this.isRunning ? this.authResponse.access_token_payload.principal.permission.workspaceId : undefined
+  get workspaceId (): string | null {
+    return this.authResponse?.access_token_payload?.principal?.permission.workspaceId ?? null
   }
 
-  get workspaceName (): string {
-    return this.isRunning ? this.authResponse.access_token_payload.principal.permission.workspaceName : undefined
+  get workspaceName (): string | null {
+    return this.authResponse?.access_token_payload?.principal?.permission?.workspaceName ?? null
   }
 
-  get hasCredentials(): boolean {
-    return !!this._apiToken && !!this.instance
+  get hasCredentials (): boolean {
+    return typeof this.apitoken === 'string' && typeof this.host === 'string'
   }
 
   /**
    * Returns the running state of the authentication agent
    */
   get isRunning (): boolean {
-    return !!this._timer
+    return this._timer !== null
   }
 
   /**
@@ -94,11 +112,11 @@ export default class Authenticator extends EventEmitter {
    * It should be inherited by all subclasses. This class has a static
    * member with the same name, both should be documented.
    *
-   * @returns Return the name.
    */
 
-  public start () {
-    return this.authenticate()
+  public async start (): Promise<string> {
+    const token = await this.authenticate()
+    return token
   }
 
   /**
@@ -106,52 +124,51 @@ export default class Authenticator extends EventEmitter {
    */
 
   stop (): void {
-    if (this._timer) {
+    if (this._timer !== null) {
       clearTimeout(this._timer)
-      this._timer = undefined
-      this._accessToken = undefined
-      this._authResponse = undefined
+      this._timer = null
+      this._accessToken = null
+      this._authResponse = null
     }
   }
 
-  private async authenticate () {
+  private async authenticate (): Promise<string> {
     this.stop()
     try {
-      const authResponse: AuthResponse = await this.getAccessToken(this.instance, this._apiToken, this.proxy)
+      const authResponse: AuthResponse = await this.getAccessToken(this.host, this._apitoken, this.proxy)
       this._authResponse = authResponse
       this._accessToken = authResponse.access_token
       if (authResponse.expired) throw new Error('received an expired jwt token')
       if (authResponse.expires_in > 0) {
         // Next authentication time, in milliseconds
         const nextAuth = Math.max(authResponse.expires_in - 10, 10) * 1000
-        this._timer = setTimeout(() => this.authenticate(), nextAuth)
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        this._timer = setTimeout(async () => await this.authenticate(), nextAuth)
       }
       this.emit('authenticated')
       return this._accessToken
     } catch (err) {
       this.stop()
       this.emit('error', err)
-      return err
+      throw err
     }
   }
 
-  private getAccessToken (instance: string, apiToken: string, proxy?: string): Promise<AuthResponse> {
+  private async getAccessToken (host: string, apiToken: string, proxy?: string): Promise<AuthResponse> {
     const base64ApiToken = Buffer.from(`apitoken:${apiToken}`).toString('base64')
-    const options = {
-      method: 'POST',
-      uri: `https://${instance}/services/mtm/v1/oauth2/token`,
+
+    const authResponse = await axios.post(`https://${host}/services/mtm/v1/oauth2/token`, new URLSearchParams({ grant_type: 'client_credentials' }), {
       headers: {
         Authorization: `Basic ${base64ApiToken}`
-      },
-      form: {
-        grant_type: `client_credentials`
       }
-    }
-    return rp({ ...options, proxy })
-      .then((res: string) => {
-        const authResponse: AuthResponse = JSON.parse(res)
-        authResponse.access_token_payload = jwtDecode(authResponse.access_token)
-        return authResponse
+    }).then(({ data }) => data as AuthResponse)
+      .catch(err => {
+        if (err instanceof AxiosError) {
+          if (err?.response?.status === 401) throw new UnauthorizedError()
+        }
+        throw err
       })
+    authResponse.access_token_payload = jwtDecode(authResponse.access_token)
+    return authResponse
   }
 }
